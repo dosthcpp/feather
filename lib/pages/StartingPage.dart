@@ -89,6 +89,7 @@ class StartingPage extends StatelessWidget {
                     30.0,
                   ),
                   child: MaterialButton(
+                    minWidth: 0,
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 10.0,
