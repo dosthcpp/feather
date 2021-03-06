@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sns_mvp/pages/PhoneNum.dart';
 
 class StartingPage extends StatelessWidget {
   static const id = 'starting_page';
@@ -102,7 +103,9 @@ class StartingPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, PhoneNum.id);
+                    },
                   ),
                 ),
               ),
