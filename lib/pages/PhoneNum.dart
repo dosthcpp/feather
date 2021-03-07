@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:sns_mvp/constants.dart';
+import 'package:sns_mvp/main.dart';
+import 'package:sns_mvp/pages/InputName.dart';
+
 class PhoneNum extends StatefulWidget {
   static const id = 'phone_num';
 
@@ -13,8 +17,6 @@ class PhoneNum extends StatefulWidget {
 
 class _PhoneNumState extends State<PhoneNum> {
   String countryCode = 'kr';
-  int phoneCode = 82;
-  String phoneNum;
   String verificationCode;
   String verificationId;
   int resendToken;
@@ -90,7 +92,7 @@ class _PhoneNumState extends State<PhoneNum> {
                                       width: 10.0,
                                     ),
                                     Text(
-                                      '+$phoneCode',
+                                      '+${user.phoneCode}',
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         letterSpacing: -1.0,
@@ -107,8 +109,7 @@ class _PhoneNumState extends State<PhoneNum> {
                                       setState(() {
                                         countryCode =
                                             country.countryCode.toLowerCase();
-                                        phoneCode =
-                                            int.parse(country.phoneCode);
+                                        user.setPhoneCode(int.parse(country.phoneCode));
                                       });
                                     },
                                   );
@@ -120,7 +121,7 @@ class _PhoneNumState extends State<PhoneNum> {
                               child: TextField(
                                 keyboardType: TextInputType.number,
                                 onChanged: (_phoneNum) {
-                                  phoneNum = _phoneNum;
+                                  user.setPhoneNum(_phoneNum);
                                 },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
@@ -178,12 +179,10 @@ class _PhoneNumState extends State<PhoneNum> {
                             ),
                           ),
                           onPressed: () async {
-                            await http.post(
-                                Uri.http('korjarvis.hopto.org:8086', '/send'),
-                                body: {
-                                  'phoneNumber': phoneNum,
-                                  'countryCode': phoneCode.toString(),
-                                }).then((res) {
+                            await http.post(Uri.http(baseUrl, '/send'), body: {
+                              'phoneNumber': user.phoneNum,
+                              'countryCode': user.phoneCode.toString(),
+                            }).then((res) {
                               if (jsonDecode(res.body)["status"] == "success") {
                                 setState(() {
                                   isVerificationSMSSent = true;
@@ -286,50 +285,37 @@ class _PhoneNumState extends State<PhoneNum> {
                           ),
                           onPressed: () async {
                             await http.post(
-                                Uri.http(
-                                    'korjarvis.hopto.org:8086', '/confirm'),
-                                body: {
-                                  "phoneNumber": phoneNum,
-                                  "verifyCode": verificationCode.toString(),
-                                }).then((res) async {
-                              if (jsonDecode(res.body)["status"] == "success") {
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: Text('Congrats!'),
-                                    content: Text('Authentication succeed.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context,
-                                                  rootNavigator: true)
-                                              .pop(); // dismisses only the dialog and returns nothing
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              } else {
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: Text('Too bad!'),
-                                    content: Text('Authentication failed.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context,
-                                              rootNavigator: true)
-                                              .pop(); // dismisses only the dialog and returns nothing
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                            });
+                              Uri.http(baseUrl, '/confirm'),
+                              body: {
+                                "phoneNumber": user.phoneNum,
+                                "verifyCode": verificationCode.toString(),
+                              },
+                            ).then(
+                              (res) async {
+                                if (jsonDecode(res.body)["status"] ==
+                                    "success") {
+                                  Navigator.pushNamed(context, InputName.id);
+                                } else {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: Text('Too bad!'),
+                                      content: Text('Authentication failed.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop();
+                                          },
+                                          child: Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              },
+                            );
                           },
                         ),
                       ),
