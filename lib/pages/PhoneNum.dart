@@ -23,6 +23,7 @@ class _PhoneNumState extends State<PhoneNum> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         shadowColor: Colors.transparent,
         backgroundColor: Colors.transparent,
@@ -178,7 +179,7 @@ class _PhoneNumState extends State<PhoneNum> {
                           ),
                           onPressed: () async {
                             await http.post(
-                                Uri.http('korjarvis.hopto.org:8091', '/send'),
+                                Uri.http('korjarvis.hopto.org:8086', '/send'),
                                 body: {
                                   'phoneNumber': phoneNum,
                                   'countryCode': phoneCode.toString(),
@@ -286,7 +287,7 @@ class _PhoneNumState extends State<PhoneNum> {
                           onPressed: () async {
                             await http.post(
                                 Uri.http(
-                                    'korjarvis.hopto.org:8091', '/confirm'),
+                                    'korjarvis.hopto.org:8086', '/confirm'),
                                 body: {
                                   "phoneNumber": phoneNum,
                                   "verifyCode": verificationCode.toString(),
