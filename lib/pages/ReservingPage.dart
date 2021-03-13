@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sns_mvp/pages/StartingPage.dart';
 
 class ReservingPage extends StatefulWidget {
   static const id = 'reserving_page';
@@ -86,7 +87,7 @@ class _ReservingPageState extends State<ReservingPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.popUntil(context, ModalRoute.withName(StartingPage.id));
                     },
                   ),
                 ),
