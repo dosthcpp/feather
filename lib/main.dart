@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -38,7 +40,7 @@ class Feather extends StatelessWidget {
       ],
       title: 'Feather',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xfff5f5dc),
+        scaffoldBackgroundColor: Color(0xfff5e8d0),
       ),
       initialRoute: StartingPage.id,
       routes: {

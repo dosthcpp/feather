@@ -4,8 +4,6 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-
-import 'package:sns_mvp/components/write.dart';
 import 'package:sns_mvp/constants.dart';
 import 'package:sns_mvp/main.dart';
 
@@ -13,7 +11,7 @@ class MainPage extends StatelessWidget {
   static const id = 'main_page';
 
   Future<Map<String, String>> fetchUserInfo() async {
-    final response = await http.post(Uri.http(baseUrl, '/check2'), body: {
+    final response = await http.post(Uri.https(baseUrl, '/check2'), body: {
       'phoneNumber': '${user.phoneCode}-${user.phoneNum}',
     });
     if (response.statusCode == 200) {

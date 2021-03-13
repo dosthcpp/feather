@@ -13,98 +13,131 @@ class InputName extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "What\'s your full name?",
-              style: TextStyle(
-                fontSize: 23.0,
-              ),
-            ),
-            SizedBox(
-              height: 50.0,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
-              child: Row(
-                children: [
-                  CustomTextField(
-                    hintText: "First",
-                    onChanged: (_firstName) {
-                      user.setFName(_firstName);
-                    },
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  CustomTextField(
-                    hintText: "Last",
-                    onChanged: (_lastName) {
-                      user.setLName(_lastName);
-                    },
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(
-              "People use real names on Feather :) Thnx!",
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 12.0,
-              ),
-            ),
-            SizedBox(
-              height: 80.0,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Material(
-                color: Colors.grey[400],
-                borderRadius: BorderRadius.circular(
-                  30.0,
+            Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 20 * 3.5,
                 ),
-                child: MaterialButton(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 50.0,
-                    ),
-                    child: Text(
-                      "Next ->",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
+                Text(
+                  "Name",
+                  style: TextStyle(
+                    fontSize: 35.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  "Please enter your name",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w200,
+                  ),
+                ),
+                SizedBox(
+                  height: 80.0,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 50.0,
+                  ),
+                  child: Row(
+                    children: [
+                      CustomTextField(
+                        hintText: "First name",
+                        onChanged: (_firstName) {
+                          user.setFName(_firstName);
+                        },
                       ),
+                      SizedBox(
+                        width: 20.0,
+                      ),
+                      CustomTextField(
+                        hintText: "Last name",
+                        onChanged: (_lastName) {
+                          user.setLName(_lastName);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 10 * 4,
+                  child: Material(
+                    color: Color(0xff6998a7),
+                    borderRadius: BorderRadius.circular(
+                      10.0,
+                    ),
+                    child: MaterialButton(
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
-                  onPressed: () async {
-                    if (user.fname.length != 0 && user.lname.length != 0) {
-                      Navigator.pushNamed(context, InputUserName.id);
-                    } else {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('Alert!'),
-                          content: Text('Please fill out the blank.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true)
-                                    .pop();
-                              },
-                              child: Text('OK'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  },
                 ),
-              ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 20 * 1,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 10 * 4,
+                  child: Material(
+                    color: Color(0xff5772a1),
+                    borderRadius: BorderRadius.circular(
+                      10.0,
+                    ),
+                    child: MaterialButton(
+                      child: Text(
+                        "Next",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      onPressed: () async {
+                        if (user.fname.length != 0 && user.lname.length != 0) {
+                          Navigator.pushNamed(context, InputUserName.id);
+                        } else {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Alert!'),
+                              content: Text('Please fill out the blank.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 10 * 2.5,
+                )
+              ],
             ),
           ],
         ),
@@ -125,7 +158,16 @@ class CustomTextField extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(5.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey[400],
+              blurRadius: 2.0,
+              spreadRadius: 1.0,
+              offset: Offset(
+                  2.0, 2.0), // shadow direction: bottom right
+            )
+          ],
         ),
         child: TextField(
           textAlign: TextAlign.center,

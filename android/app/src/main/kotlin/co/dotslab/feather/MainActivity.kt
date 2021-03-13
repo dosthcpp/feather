@@ -1,4 +1,4 @@
-package co.dotslab.sns_mvp
+package co.dotslab.feather
 
 import io.flutter.embedding.android.FlutterActivity
 
